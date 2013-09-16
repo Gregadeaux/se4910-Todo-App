@@ -1,10 +1,12 @@
-package com.msoe.deaux.se4910_lab2;
+package com.msoe.deaux.se4910_lab2_fragments;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import com.joshdholtz.trajectory.Trajectory;
-import com.msoe.deaux.se4910_lab2.TodoListAdapter.TodoListAdapterListener;
+import com.msoe.deaux.se4910_lab2.R;
+import com.msoe.deaux.se4910_lab2_adapters.TodoListAdapter;
+import com.msoe.deaux.se4910_lab2_adapters.TodoListAdapter.TodoListAdapterListener;
 
 import butterknife.InjectView;
 import butterknife.OnClick;

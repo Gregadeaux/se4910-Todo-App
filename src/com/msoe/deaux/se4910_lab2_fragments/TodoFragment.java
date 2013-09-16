@@ -1,4 +1,6 @@
-package com.msoe.deaux.se4910_lab2;
+package com.msoe.deaux.se4910_lab2_fragments;
+
+import com.msoe.deaux.se4910_lab2.R;
 
 import butterknife.InjectView;
 import butterknife.Views;

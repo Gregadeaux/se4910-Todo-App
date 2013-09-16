@@ -1,11 +1,11 @@
 // Generated code from Butter Knife. Do not modify!
-package com.msoe.deaux.se4910_lab2;
+package com.msoe.deaux.se4910_lab2_fragments;
 
 import android.view.View;
 import butterknife.Views.Finder;
 
 public class ListFragment$$ViewInjector {
-  public static void inject(Finder finder, final com.msoe.deaux.se4910_lab2.ListFragment target, Object source) {
+  public static void inject(Finder finder, final com.msoe.deaux.se4910_lab2_fragments.ListFragment target, Object source) {
     View view;
     view = finder.findById(source, 2131230723);
     if (view == null) {
@@ -28,7 +28,7 @@ public class ListFragment$$ViewInjector {
     });
   }
 
-  public static void reset(com.msoe.deaux.se4910_lab2.ListFragment target) {
+  public static void reset(com.msoe.deaux.se4910_lab2_fragments.ListFragment target) {
     target.editText = null;
     target.list = null;
   }

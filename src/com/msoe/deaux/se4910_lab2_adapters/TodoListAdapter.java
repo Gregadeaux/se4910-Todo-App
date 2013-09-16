@@ -1,7 +1,9 @@
-package com.msoe.deaux.se4910_lab2;
+package com.msoe.deaux.se4910_lab2_adapters;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import com.msoe.deaux.se4910_lab2.R;
 
 import butterknife.InjectView;
 import butterknife.Optional;
