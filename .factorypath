@@ -1,0 +1,4 @@
+<factorypath>
+    <factorypathentry kind="PLUGIN" id="org.eclipse.jst.ws.annotations.core" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="WKSPJAR" id="/se4910_lab2/libs/butterknife-3.0.0.jar" enabled="true" runInBatchMode="false"/>
+</factorypath>
