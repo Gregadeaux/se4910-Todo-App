@@ -1,11 +1,11 @@
 // Generated code from Butter Knife. Do not modify!
-package com.msoe.deaux.se4910_lab2_adapters;
+package com.msoe.deaux.se4910_lab2.adapters;
 
 import android.view.View;
 import butterknife.Views.Finder;
 
 public class TodoListAdapter$$ViewInjector {
-  public static void inject(Finder finder, final com.msoe.deaux.se4910_lab2_adapters.TodoListAdapter target, Object source) {
+  public static void inject(Finder finder, final com.msoe.deaux.se4910_lab2.adapters.TodoListAdapter target, Object source) {
     View view;
     view = finder.findById(source, 2131230727);
     if (view == null) {
@@ -16,7 +16,7 @@ public class TodoListAdapter$$ViewInjector {
     target.container = (android.view.View) view;
   }
 
-  public static void reset(com.msoe.deaux.se4910_lab2_adapters.TodoListAdapter target) {
+  public static void reset(com.msoe.deaux.se4910_lab2.adapters.TodoListAdapter target) {
     target.textView = null;
     target.container = null;
   }

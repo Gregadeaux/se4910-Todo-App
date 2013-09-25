@@ -1,4 +1,4 @@
-package com.msoe.deaux.se4910_lab2_fragments;
+package com.msoe.deaux.se4910_lab2.fragments;
 
 import com.msoe.deaux.se4910_lab2.R;
 
