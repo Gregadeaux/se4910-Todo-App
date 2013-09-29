@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="fill_parent"
     android:background="#fff"
     android:padding="10dp"
 	>
@@ -9,7 +9,48 @@
     <TextView android:id="@+id/fragment_todo_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:textSize="24sp"
         android:fontFamily="sans-serif-light"/>
+    
+    <Button android:id="@+id/fragment_todo_date_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fragment_todo_text"
+        android:textSize="24sp"
+        android:background="@null"
+        android:fontFamily="sans-serif-light"
+        android:textColor="#3498db"
+        android:text="@string/fragment_todo_string_date_text"/>
+    
+    <TextView android:id="@+id/fragment_todo_date_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/fragment_todo_date_button"
+        android:layout_alignBaseline="@id/fragment_todo_date_button"
+        android:fontFamily="sans-serif-light"
+        android:paddingLeft="20dp"
+        android:textSize="24sp"
+        android:textColor="#777"/>
+    
+    <Button android:id="@+id/fragment_todo_time_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fragment_todo_date_button"
+        android:textSize="24sp"
+        android:background="@null"
+        android:fontFamily="sans-serif-light"
+        android:textColor="#3498db"
+        android:text="@string/fragment_todo_string_time_text"/>
+    
+    <TextView android:id="@+id/fragment_todo_time_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/fragment_todo_time_button"
+        android:layout_alignBaseline="@id/fragment_todo_time_button"
+        android:fontFamily="sans-serif-light"
+        android:paddingLeft="20dp"
+        android:textSize="24sp"
+        android:textColor="#777"/>
     
 </RelativeLayout>

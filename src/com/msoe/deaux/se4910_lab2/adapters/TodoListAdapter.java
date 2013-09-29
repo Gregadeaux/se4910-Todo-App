@@ -7,10 +7,12 @@ import com.msoe.deaux.se4910_lab2.R;
 import com.msoe.deaux.se4910_lab2.models.Todo;
 
 import butterknife.InjectView;
-import butterknife.Optional;
 import butterknife.Views;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.text.Html;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,8 +25,9 @@ public class TodoListAdapter extends ArrayAdapter<Todo> {
 	private List<Todo> todos;
 	private TodoListAdapterListener listener;
 
-	@Optional @InjectView(R.id.list_item_todo_container) View container;
-	@InjectView(R.id.list_item_todo_text) TextView textView;
+	@InjectView(R.id.list_item_todo_container) View container;
+	@InjectView(R.id.list_item_todo_text) TextView todoString;
+	@InjectView(R.id.list_item_todo_due) TextView dateString;
 	
 	public TodoListAdapter(Context context) {
 		this(context, new LinkedList<Todo>());
@@ -55,12 +58,35 @@ public class TodoListAdapter extends ArrayAdapter<Todo> {
 		
 		Views.inject(this, v);
 		
-		textView.setText(todos.get(position).getText());
+		final Todo todo = todos.get(position);
+		todoString.setText(todo.getText());
+		
+		CharSequence date = " ";
+		CharSequence time = " ";
+		
+		if(todo.getTime() != null) {
+			time = DateFormat.format("hh:mm aa", todo.getTime().toMillis(true));
+		}else {
+			if(todo.getDate() != null) {
+				time = DateFormat.format("hh:mm aa", todo.getDate().toMillis(true));
+			}
+		}
+		
+		if(todo.getDate() != null) {
+			date = DateFormat.format("MMM dd, yyyy", todo.getDate().toMillis(true));
+		}
+	
+		Resources res = getContext().getResources();
+		String text = String.format(res.getString(R.string.fragment_todo_string_formatted_due_date), time, date);
+		CharSequence due = Html.fromHtml(text);
+		
+		dateString.setText(due);
+		
 		container.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if(listener != null) {
-					listener.todoClicked(position, todos.get(position));
+					listener.todoClicked(position, todo);
 				}
 			}
 		});
@@ -69,6 +95,6 @@ public class TodoListAdapter extends ArrayAdapter<Todo> {
 	}
 	
 	public interface TodoListAdapterListener {
-		public void todoClicked(int position, String todo);
+		public void todoClicked(int position, Todo todo);
 	}
 }

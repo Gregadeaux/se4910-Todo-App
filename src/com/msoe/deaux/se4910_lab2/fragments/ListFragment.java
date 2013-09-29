@@ -7,6 +7,7 @@ import com.joshdholtz.trajectory.Trajectory;
 import com.msoe.deaux.se4910_lab2.R;
 import com.msoe.deaux.se4910_lab2.adapters.TodoListAdapter;
 import com.msoe.deaux.se4910_lab2.adapters.TodoListAdapter.TodoListAdapterListener;
+import com.msoe.deaux.se4910_lab2.models.Todo;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -35,8 +36,8 @@ public class ListFragment extends Fragment implements TodoListAdapterListener{
 	@InjectView(R.id.fragment_list_listview) ListView list;
 	@InjectView(R.id.fragment_list_add) EditText editText; 
 	
-	private List<String> todos;
-	private ArrayAdapter<String> todoAdapter;
+	private List<Todo> todos;
+	private ArrayAdapter<Todo> todoAdapter;
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,7 +46,7 @@ public class ListFragment extends Fragment implements TodoListAdapterListener{
 		Views.inject(this, v);
 		
 		if(todos == null) {
-			todos = new LinkedList<String>();
+			todos = new LinkedList<Todo>();
 		}
 		
 		todoAdapter = new TodoListAdapter(this.getActivity(), todos, this);
@@ -58,7 +59,9 @@ public class ListFragment extends Fragment implements TodoListAdapterListener{
 	public void addTodo() {
 		String text = editText.getText().toString().trim();
 		if(!TextUtils.isEmpty(text)) {
-			todos.add(0, text);
+			Todo newTodo = new Todo();
+			newTodo.setText(text);
+			todos.add(0, newTodo);
 			todoAdapter.notifyDataSetChanged();
 			System.out.println(todos.size());
 		}
@@ -73,10 +76,10 @@ public class ListFragment extends Fragment implements TodoListAdapterListener{
 	}
 
 	@Override
-	public void todoClicked(int position, String todo) {
+	public void todoClicked(int position, Todo todo) {
 		Bundle extras = new Bundle();
 		extras.putInt("position", position);
-		extras.putString("todo", todo);
+		extras.putSerializable("todo", todo);
 		
 		Trajectory.call("/todo", extras);
 	}
