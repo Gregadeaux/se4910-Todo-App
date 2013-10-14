@@ -1,6 +1,5 @@
 package com.msoe.deaux.se4910_lab2.fragments;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import com.joshdholtz.trajectory.Trajectory;
@@ -40,14 +39,19 @@ public class ListFragment extends Fragment implements TodoListAdapterListener{
 	private ArrayAdapter<Todo> todoAdapter;
 	
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		this.setRetainInstance(true);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_list, container, false);
 		// Butterknife 3.0 initialization
 		Views.inject(this, v);
 		
-		if(todos == null) {
-			todos = new LinkedList<Todo>();
-		}
+		todos = (List<Todo>) this.getArguments().getSerializable("todos");
 		
 		todoAdapter = new TodoListAdapter(this.getActivity(), todos, this);
 		list.setAdapter(todoAdapter);
@@ -63,7 +67,6 @@ public class ListFragment extends Fragment implements TodoListAdapterListener{
 			newTodo.setText(text);
 			todos.add(0, newTodo);
 			todoAdapter.notifyDataSetChanged();
-			System.out.println(todos.size());
 		}
 		
 		editText.setText("");

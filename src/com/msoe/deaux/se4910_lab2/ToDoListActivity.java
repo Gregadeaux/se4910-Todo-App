@@ -1,11 +1,15 @@
 package com.msoe.deaux.se4910_lab2;
 
+import java.io.Serializable;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 import com.joshdholtz.trajectory.Trajectory;
 import com.joshdholtz.trajectory.Trajectory.Route;
 import com.msoe.deaux.se4910_lab2.fragments.ListFragment;
 import com.msoe.deaux.se4910_lab2.fragments.TodoFragment;
+import com.msoe.deaux.se4910_lab2.models.Todo;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -15,13 +19,28 @@ import android.view.Menu;
 
 public class ToDoListActivity extends Activity {
 
-    @Override
+	private List<Todo> todos;
+	
+    @SuppressWarnings("unchecked")
+	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_to_do_list);
         
+        if(savedInstanceState != null) {
+        	todos = (List<Todo>) savedInstanceState.getSerializable("todos");
+        }
+        
+		if(todos == null) {
+			todos = new LinkedList<Todo>();
+		}
+		
         this.registerRoutes();
-        Trajectory.call("/todos");
+        
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("todos", (Serializable) todos);
+        
+        Trajectory.call("/todos", bundle);
     }
     
     private void registerRoutes() {
@@ -35,6 +54,12 @@ public class ToDoListActivity extends Activity {
         getMenuInflater().inflate(R.menu.to_do_list, menu);
         return true;
     }
+    
+	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+		  super.onSaveInstanceState(savedInstanceState);
+		  savedInstanceState.putSerializable("todos", (Serializable) todos);
+	}
     
 	private void replaceFragment(Fragment fragment) {
 		fragment.setRetainInstance(false);

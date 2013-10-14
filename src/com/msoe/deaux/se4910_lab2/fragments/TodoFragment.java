@@ -3,16 +3,22 @@ package com.msoe.deaux.se4910_lab2.fragments;
 import java.util.Calendar;
 
 import com.msoe.deaux.se4910_lab2.R;
+import com.msoe.deaux.se4910_lab2.adapters.SerializableTime;
+import com.msoe.deaux.se4910_lab2.adapters.TodoReceiver;
 import com.msoe.deaux.se4910_lab2.models.Todo;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
 import butterknife.Views;
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.Fragment;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.text.format.Time;
@@ -29,11 +35,16 @@ public class TodoFragment extends Fragment {
 	@InjectView(R.id.fragment_todo_date_text) TextView dateView;
 	@InjectView(R.id.fragment_todo_time_text) TextView timeView;
 	private Todo todo;
+	private boolean hasDate;
+	private boolean hasTime;
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_todo, container, false);
 		todo = (Todo) this.getArguments().getSerializable("todo");
+		
+		hasDate = false;
+		hasTime = false;
 		
 		// Butterknife 3.0 initialization
 		Views.inject(this, v);
@@ -62,11 +73,13 @@ public class TodoFragment extends Fragment {
 					@Override
 					public void onDateSet(DatePicker view, int year,
 							int monthOfYear, int dayOfMonth) {
-						Time time = new Time();
+						SerializableTime time = new SerializableTime();
 						time.set(0, 0, 12, dayOfMonth, monthOfYear, year);
 						todo.setDate(time);
 						dateView.setText(DateFormat.format("MMMM dd, yy", time.toMillis(true)));
 						timeView.setText(DateFormat.format("hh:mm aa", time.toMillis(true)));
+						hasDate = true;
+						if (hasTime && hasDate) setAlarm();
 					}
 					
 				}, c.get(Calendar.YEAR),c.get(Calendar.MONTH),c.get(Calendar.DAY_OF_MONTH)).show();
@@ -78,15 +91,34 @@ public class TodoFragment extends Fragment {
 					@Override
 					public void onTimeSet(TimePicker view, int hourOfDay,
 							int minute) {
-						Time time = new Time();
+						SerializableTime time = new SerializableTime();
 						time.set(0, minute, hourOfDay, c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH), c.get(Calendar.YEAR));
 						todo.setTime(time);
 						timeView.setText(DateFormat.format("hh:mm aa",time.toMillis(true)));
+						hasTime = true;
+						if (hasTime && hasDate) setAlarm();
 					}
 					
 				}, c.get(Calendar.HOUR), c.get(Calendar.MINUTE), false).show();
 				break;
 		}
+	}
+	
+	private void setAlarm() {
+		int uniqueId = 723956022;
+		AlarmManager am = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
+		Intent intent = new Intent(getActivity(), TodoReceiver.class);
+		intent.putExtra("todo", todo);
+
+		Time date = todo.getDate();
+		Time time = todo.getTime();
+		
+		Time datetime = new Time();
+		datetime.set(time.second, time.minute, time.hour, date.monthDay, date.month, date.year);
+		
+		PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), uniqueId,  intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+		am.set(AlarmManager.RTC_WAKEUP, datetime.toMillis(false), pendingIntent);
 	}
 
 }
