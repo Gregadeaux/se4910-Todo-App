@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class TodoListAdapter extends ArrayAdapter<Todo> {
@@ -28,6 +29,7 @@ public class TodoListAdapter extends ArrayAdapter<Todo> {
 	@InjectView(R.id.list_item_todo_container) View container;
 	@InjectView(R.id.list_item_todo_text) TextView todoString;
 	@InjectView(R.id.list_item_todo_due) TextView dateString;
+	@InjectView(R.id.list_item_todo_delete) ImageButton deleteButton;
 	
 	public TodoListAdapter(Context context) {
 		this(context, new LinkedList<Todo>());
@@ -91,10 +93,20 @@ public class TodoListAdapter extends ArrayAdapter<Todo> {
 			}
 		});
 		
+		deleteButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (listener != null) {
+					listener.todoDeleted(position, todo);
+				}
+			}
+		});
+		
 		return v;
 	}
 	
 	public interface TodoListAdapterListener {
 		public void todoClicked(int position, Todo todo);
+		public void todoDeleted(int position, Todo todo);
 	}
 }

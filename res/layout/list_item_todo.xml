@@ -25,6 +25,15 @@
 	        android:textSize="18sp"
 	        android:fontFamily="sans-serif-light"
 	        android:textColor="#777" />
-    </RelativeLayout>
+	    <ImageButton android:id="@+id/list_item_todo_delete"
+	        android:layout_width="50dp"
+	        android:layout_height="50dp"
+	        android:layout_alignParentRight="true"
+	        android:layout_alignParentTop="true"
+	        android:padding="0dp"
+	        android:background="@null"
+	        android:src="@android:drawable/ic_delete"
+	        android:contentDescription="Delete"/>  
+	</RelativeLayout>
     
 </LinearLayout>

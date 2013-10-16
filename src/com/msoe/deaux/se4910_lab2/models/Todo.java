@@ -12,6 +12,7 @@ public class Todo implements Serializable{
 	private String text;
 	private SerializableTime date;
 	private SerializableTime time;
+	private Priority priority;
 	
 	public void setText(String text) {
 		this.text = text;
@@ -37,4 +38,21 @@ public class Todo implements Serializable{
 		this.time = time;
 	}
 
+	public Priority getPriority() {
+		if(priority == null) {
+			priority = Priority.NONE;
+		}
+		return priority;
+	}
+
+	public void setPriority(Priority priority) {
+		this.priority = priority;
+	}
+
+	public enum Priority {
+		NONE,
+		HIGH,
+		MEDIUM,
+		LOW
+	}
 }

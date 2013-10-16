@@ -13,10 +13,44 @@
         android:textSize="24sp"
         android:fontFamily="sans-serif-light"/>
     
+    <EditText android:id="@+id/fragment_todo_edit_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:textSize="24sp"
+        android:fontFamily="sans-serif-light"
+        android:visibility="invisible" />
+    
+    <ImageButton android:id="@+id/fragment_todo_edit_button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="-10dp"
+        android:background="@null"
+        android:src="@android:drawable/ic_menu_edit"/>
+    
+    <TextView android:id="@+id/fragment_todo_priority_label" 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:textSize="24sp"
+        android:fontFamily="sans-serif-light"
+        android:textColor="#3498db"
+        android:layout_below="@id/fragment_todo_edit_text"
+        android:text="@string/fragment_todo_string_priority_text"/>
+    
+    <Spinner android:id="@+id/fragment_todo_priority"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/fragment_todo_priority_label"
+        android:layout_alignTop="@id/fragment_todo_priority_label"
+        android:layout_below="@id/fragment_todo_edit_text"/>
+    
     <Button android:id="@+id/fragment_todo_date_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/fragment_todo_text"
+        android:layout_below="@id/fragment_todo_priority"
         android:textSize="24sp"
         android:background="@null"
         android:fontFamily="sans-serif-light"

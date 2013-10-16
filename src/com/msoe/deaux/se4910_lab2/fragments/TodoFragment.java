@@ -25,18 +25,29 @@ import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
 public class TodoFragment extends Fragment {
 
 	@InjectView(R.id.fragment_todo_text) TextView textView;
+	@InjectView(R.id.fragment_todo_edit_text) EditText editText;
 	@InjectView(R.id.fragment_todo_date_text) TextView dateView;
 	@InjectView(R.id.fragment_todo_time_text) TextView timeView;
+	@InjectView(R.id.fragment_todo_priority) Spinner priority;
+	@InjectView(R.id.fragment_todo_edit_button) ImageButton editButton; 
 	private Todo todo;
 	private boolean hasDate;
 	private boolean hasTime;
+	
+	
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,6 +59,24 @@ public class TodoFragment extends Fragment {
 		
 		// Butterknife 3.0 initialization
 		Views.inject(this, v);
+		
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.priority_array, android.R.layout.simple_spinner_item);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		priority.setAdapter(adapter);
+		priority.setSelection(todo.getPriority().ordinal());
+		priority.setOnItemSelectedListener(new OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int pos, long id) {
+				todo.setPriority(Todo.Priority.valueOf(((String) parent.getItemAtPosition(pos)).toUpperCase()));
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+				todo.setPriority(Todo.Priority.NONE);
+			}
+		});
+		
 		textView.setText(todo.getText());
 		if(todo.getDate() != null) {
 			dateView.setText(DateFormat.format("MMMM dd, yy", todo.getDate().toMillis(true)));
@@ -60,6 +89,26 @@ public class TodoFragment extends Fragment {
 		
         return v;
     }
+	@OnClick({R.id.fragment_todo_edit_button})
+	public void editButtonClicked() {
+		switch(textView.getVisibility()) {
+		case View.VISIBLE:
+			textView.setVisibility(View.INVISIBLE);
+			editText.setVisibility(View.VISIBLE);
+			editButton.setImageResource(android.R.drawable.checkbox_on_background);
+			
+			editText.setText(todo.getText());
+			break;
+		case View.INVISIBLE:
+			editText.setVisibility(View.INVISIBLE);
+			textView.setVisibility(View.VISIBLE);
+			editButton.setImageResource(android.R.drawable.ic_menu_edit);
+			
+			todo.setText(editText.getText().toString());
+			textView.setText(todo.getText());
+			break;
+		}
+	}
 	
 	@OnClick({R.id.fragment_todo_date_button, R.id.fragment_todo_time_button})
 	public void dateTimeClicked(View v) {

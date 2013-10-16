@@ -7,7 +7,13 @@
     <string name="fragment_list_string_button_text">ADD</string>
     <string name="fragment_list_string_edittext_hint">Add Todo</string>
     <string name="fragment_todo_string_date_text">DATE:</string>
-    <string name="fragment_todo_string_time_text">TIME:</string>  
+    <string name="fragment_todo_string_time_text">TIME:</string> 
+    <string name="fragment_todo_string_priority_text">PRIORITY:</string> 
     <string name="fragment_todo_string_formatted_due_date">DUE AT &lt;i&gt;&lt;font color="#3498db"&gt;%1$s&lt;/font&gt;&lt;/i&gt; ON &lt;i&gt;&lt;font color="#3498db"&gt;%2$s&lt;/font&gt;&lt;/i&gt;</string>  
-
+	<string-array name="priority_array">
+	    <item>None</item>
+        <item>High</item>
+        <item>Medium</item>
+        <item>Low</item>
+    </string-array>
 </resources>

@@ -86,4 +86,10 @@ public class ListFragment extends Fragment implements TodoListAdapterListener{
 		
 		Trajectory.call("/todo", extras);
 	}
+
+	@Override
+	public void todoDeleted(int position, Todo todo) {
+		todos.remove(position);
+		todoAdapter.notifyDataSetChanged();
+	}
 }
