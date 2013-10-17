@@ -61,21 +61,22 @@ public class TodoListAdapter extends ArrayAdapter<Todo> {
 		Views.inject(this, v);
 		
 		final Todo todo = todos.get(position);
+		System.out.println(todo.getRowid());
 		todoString.setText(todo.getText());
 		
 		CharSequence date = " ";
 		CharSequence time = " ";
 		
 		if(todo.getTime() != null) {
-			time = DateFormat.format("hh:mm aa", todo.getTime().toMillis(true));
+			time = DateFormat.format("hh:mm aa", todo.getTime().toMillis(false));
 		}else {
 			if(todo.getDate() != null) {
-				time = DateFormat.format("hh:mm aa", todo.getDate().toMillis(true));
+				time = DateFormat.format("hh:mm aa", todo.getDate().toMillis(false));
 			}
 		}
 		
 		if(todo.getDate() != null) {
-			date = DateFormat.format("MMM dd, yyyy", todo.getDate().toMillis(true));
+			date = DateFormat.format("MMM dd, yyyy", todo.getDate().toMillis(false));
 		}
 	
 		Resources res = getContext().getResources();
@@ -97,6 +98,7 @@ public class TodoListAdapter extends ArrayAdapter<Todo> {
 			@Override
 			public void onClick(View v) {
 				if (listener != null) {
+					System.out.println(todo.getRowid());
 					listener.todoDeleted(position, todo);
 				}
 			}

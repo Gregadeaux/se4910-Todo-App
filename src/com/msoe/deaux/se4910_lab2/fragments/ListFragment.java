@@ -1,5 +1,7 @@
 package com.msoe.deaux.se4910_lab2.fragments;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import com.joshdholtz.trajectory.Trajectory;
@@ -7,6 +9,8 @@ import com.msoe.deaux.se4910_lab2.R;
 import com.msoe.deaux.se4910_lab2.adapters.TodoListAdapter;
 import com.msoe.deaux.se4910_lab2.adapters.TodoListAdapter.TodoListAdapterListener;
 import com.msoe.deaux.se4910_lab2.models.Todo;
+import com.msoe.deaux.se4910_lab2.models.Todo.Priority;
+import com.msoe.deaux.se4910_lab2.util.TodoDBQueryHelper;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -16,11 +20,15 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class ListFragment extends Fragment implements TodoListAdapterListener{
 	
@@ -37,19 +45,21 @@ public class ListFragment extends Fragment implements TodoListAdapterListener{
 	
 	private List<Todo> todos;
 	private ArrayAdapter<Todo> todoAdapter;
+	private TodoDBQueryHelper queryHelper;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setRetainInstance(true);
+		setHasOptionsMenu(true);
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_list, container, false);
 		// Butterknife 3.0 initialization
 		Views.inject(this, v);
+		queryHelper = TodoDBQueryHelper.getTodoQueryHelper();
 		
 		todos = (List<Todo>) this.getArguments().getSerializable("todos");
 		
@@ -67,10 +77,39 @@ public class ListFragment extends Fragment implements TodoListAdapterListener{
 			newTodo.setText(text);
 			todos.add(0, newTodo);
 			todoAdapter.notifyDataSetChanged();
+//			queryHelper.addTodo(newTodo);
 		}
 		
 		editText.setText("");
 	}
+	
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+    	System.out.println("HERE I AM");
+        switch (item.getItemId()) {
+            case R.id.menu_sort_by_priority:
+                Collections.sort(todos, new Comparator<Todo>() {
+
+					@Override
+					public int compare(Todo left, Todo right) {
+						System.out.println(left.getPriority().ordinal() - right.getPriority().ordinal());
+						return left.getPriority().ordinal() - right.getPriority().ordinal();
+					}
+                	
+                });
+                todoAdapter.notifyDataSetChanged();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+    
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    	inflater.inflate(R.menu.to_do_list, menu);
+    	super.onCreateOptionsMenu(menu, inflater);
+    }
 
 	@Override
 	public void onDestroy() {
@@ -89,7 +128,10 @@ public class ListFragment extends Fragment implements TodoListAdapterListener{
 
 	@Override
 	public void todoDeleted(int position, Todo todo) {
+		System.out.println(todo.getRowid());
+//		queryHelper.deleteTodo(todo);
 		todos.remove(position);
 		todoAdapter.notifyDataSetChanged();
+		Toast.makeText(getActivity(), "Todo Deleted", Toast.LENGTH_SHORT).show();
 	}
 }

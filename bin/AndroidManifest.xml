@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         
-    	<receiver android:name=".adapters.TodoReceiver"></receiver>
+    	<receiver android:name="com.msoe.deaux.se4910_lab2.util.TodoReceiver"></receiver>
         <activity
             android:name="com.msoe.deaux.se4910_lab2.ToDoListActivity"
             android:label="@string/app_name" >

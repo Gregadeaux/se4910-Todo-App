@@ -3,9 +3,9 @@ package com.msoe.deaux.se4910_lab2.fragments;
 import java.util.Calendar;
 
 import com.msoe.deaux.se4910_lab2.R;
-import com.msoe.deaux.se4910_lab2.adapters.SerializableTime;
-import com.msoe.deaux.se4910_lab2.adapters.TodoReceiver;
 import com.msoe.deaux.se4910_lab2.models.Todo;
+import com.msoe.deaux.se4910_lab2.util.SerializableTime;
+import com.msoe.deaux.se4910_lab2.util.TodoReceiver;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -79,12 +79,12 @@ public class TodoFragment extends Fragment {
 		
 		textView.setText(todo.getText());
 		if(todo.getDate() != null) {
-			dateView.setText(DateFormat.format("MMMM dd, yy", todo.getDate().toMillis(true)));
-			timeView.setText(DateFormat.format("hh:mm", todo.getDate().toMillis(true)));
+			dateView.setText(DateFormat.format("MMMM dd, yy", todo.getDate().toMillis(false)));
+			timeView.setText(DateFormat.format("hh:mm", todo.getDate().toMillis(false)));
 		}
 		
 		if(todo.getTime() != null) {
-			timeView.setText(DateFormat.format("hh:mm", todo.getTime().toMillis(true)));
+			timeView.setText(DateFormat.format("hh:mm", todo.getTime().toMillis(false)));
 		}
 		
         return v;
@@ -125,8 +125,8 @@ public class TodoFragment extends Fragment {
 						SerializableTime time = new SerializableTime();
 						time.set(0, 0, 12, dayOfMonth, monthOfYear, year);
 						todo.setDate(time);
-						dateView.setText(DateFormat.format("MMMM dd, yy", time.toMillis(true)));
-						timeView.setText(DateFormat.format("hh:mm aa", time.toMillis(true)));
+						dateView.setText(DateFormat.format("MMMM dd, yy", time.toMillis(false)));
+						timeView.setText(DateFormat.format("hh:mm aa", time.toMillis(false)));
 						hasDate = true;
 						if (hasTime && hasDate) setAlarm();
 					}
@@ -143,7 +143,7 @@ public class TodoFragment extends Fragment {
 						SerializableTime time = new SerializableTime();
 						time.set(0, minute, hourOfDay, c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH), c.get(Calendar.YEAR));
 						todo.setTime(time);
-						timeView.setText(DateFormat.format("hh:mm aa",time.toMillis(true)));
+						timeView.setText(DateFormat.format("hh:mm aa",time.toMillis(false)));
 						hasTime = true;
 						if (hasTime && hasDate) setAlarm();
 					}

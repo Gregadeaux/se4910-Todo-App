@@ -46,6 +46,7 @@ public final class R {
         public static final int list_item_todo_delete=0x7f090011;
         public static final int list_item_todo_due=0x7f090010;
         public static final int list_item_todo_text=0x7f09000f;
+        public static final int menu_sort_by_priority=0x7f090013;
     }
     public static final class layout {
         public static final int activity_to_do_list=0x7f030000;

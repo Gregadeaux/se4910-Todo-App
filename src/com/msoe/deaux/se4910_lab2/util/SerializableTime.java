@@ -1,4 +1,4 @@
-package com.msoe.deaux.se4910_lab2.adapters;
+package com.msoe.deaux.se4910_lab2.util;
 
 import java.io.Serializable;
 
